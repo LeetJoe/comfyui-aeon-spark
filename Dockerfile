@@ -100,7 +100,7 @@ RUN --mount=type=cache,id=pip-cache,target=/root/.cache/pip \
     pip install "triton==3.6.0" || pip install triton || true
 
 # -----------------------------------------------------------------------------
-# Stage 2: build SageAttention v3 from source for sm_121a
+# Stage 2: build SageAttention v3 and comfy-kitchen from source for sm_121a
 # Bundled wheels skip Blackwell datacenter parts; we have to compile.
 # -----------------------------------------------------------------------------
 FROM base AS sageattn-builder
@@ -115,6 +115,21 @@ RUN --mount=type=cache,id=ccache,target=/root/.ccache \
     pip wheel --no-build-isolation -w /wheels . && \
     ls -la /wheels
 
+FROM base AS comfy-kitchen-builder
+
+WORKDIR /build
+RUN --mount=type=cache,id=ccache,target=/root/.ccache \
+    --mount=type=cache,id=pip-cache,target=/root/.cache/pip \
+    pip install nanobind && \
+    git clone --depth=1 --recurse-submodules --shallow-submodules \
+    https://github.com/Comfy-Org/comfy-kitchen.git && \
+    cd comfy-kitchen && \
+    TORCH_CUDA_ARCH_LIST="12.1a" \
+    CUDA_HOME=/usr/local/cuda \
+    pip wheel --no-build-isolation --no-deps -w /wheels . && \
+    ls -la /wheels
+
+
 # -----------------------------------------------------------------------------
 # Stage 3: final runtime image
 # (FlashAttention 2/3 don't support sm_121 yet — SageAttention v3 covers the
@@ -126,16 +141,26 @@ FROM base AS runtime
 # Copy compiled SageAttention wheel from builder
 COPY --from=sageattn-builder /wheels /wheels-sage
 
+# Copy compiled comfy-kitchen wheel from builder
+COPY --from=comfy-kitchen-builder /wheels /wheels-comfy-kitchen
+
 RUN --mount=type=cache,id=pip-cache,target=/root/.cache/pip \
     if ls /wheels-sage/*.whl >/dev/null 2>&1; then \
       pip install /wheels-sage/*.whl; \
     else \
       echo "WARN: SageAttention wheel missing — runtime will fall back to torch SDPA"; \
+    fi && \
+    if ls /wheels-comfy-kitchen/*.whl >/dev/null 2>&1; then \
+      pip install /wheels-comfy-kitchen/*.whl; \
+    else \
+      echo "ERROR: comfy-kitchen wheel missing — NVFP4 acceleration will be disabled"; \
     fi
 
 # -----------------------------------------------------------------------------
 # ComfyUI — bleeding edge master
 # -----------------------------------------------------------------------------
+FROM runtime AS extra
+
 ENV COMFY_HOME=/opt/ComfyUI
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git ${COMFY_HOME}
 
