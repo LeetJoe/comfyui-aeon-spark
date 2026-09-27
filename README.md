@@ -25,7 +25,7 @@ Open `http://<host>:8188` and start generating. That's it.
 
 **Model weights are NOT auto-downloaded by default.** Use `download_models.py` to download models on demand:
 ```bash
-cd ~/comfyui-spark
+cd /path/to/your/comfyui-leetjoe-spark
 export HF_TOKEN=hf_xxxxxxx python3 download_models.py --workspace <parent_of_ComfyUI_models>
 ```
 
@@ -101,13 +101,13 @@ Included models:
 - **VAE**: Video (FP16) and Audio (FP32) variants
 - **Upscalers**: RealESRGAN x2+ and x4+
 
-All weights download automatically on first start — no manual download needed.
+All weights download automatically on first start — no manual download needed. By setting `SKIP_MODEL_DOWNLOAD=1` and/or `SKIP_ABLITERATED=1`, you can manage the weights for automatically downloading, or customize the download list using `download_models.py`.
 
 ---
 
 ## 📁 Workspace persistence & custom nodes
 
-Your workspace volume at `~/comfyui-spark/workspace/` is **fully persistent** and survives container recreations. You can safely manage:
+Your workspace volume at `./workspace` is **fully persistent** and survives container recreations. You can safely manage:
 
 - `models/` — add, remove, or replace model weights
 - `custom_nodes/` — install additional custom node packs via Manager or manually
@@ -120,7 +120,7 @@ Your workspace volume at `~/comfyui-spark/workspace/` is **fully persistent** an
 
 ### Limitations
 
-- **You cannot upgrade ComfyUI** inside the running container without modifying or rebuilding the image. The ComfyUI version is baked into the image at build time. To get a newer version, pull the latest image and recreate the container.
+- **You cannot upgrade ComfyUI** inside the running container without modifying or rebuilding the image. The ComfyUI version is baked into the image at build time. To get a newer version, rebuild the image by yourself or pull the latest image and recreate the container.
 - **Custom node `requirements.txt` auto-install** — when you add custom nodes to your workspace, the container will attempt to automatically install their `requirements.txt` on startup. If network connectivity is poor or unavailable, this may fail. You can manually fix missing dependencies by entering the container:
   ```bash
   docker exec -it comfyui-spark bash
