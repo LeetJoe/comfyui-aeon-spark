@@ -11,7 +11,7 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: comfyui-ollama
-    runtime: nvidia
+    # runtime: nvidia
     deploy:
       resources:
         reservations:
@@ -53,12 +53,15 @@ services:
       dockerfile: Dockerfile
       args:
         BUILD_JOBS: "${BUILD_JOBS:-20}"
-    image: ghcr.io/aeon-7/comfyui-aeon-spark:${IMAGE_TAG:-latest}
+    # image: ghcr.io/aeon-7/comfyui-aeon-spark:${IMAGE_TAG:-latest}
+    image: comfyui-spark:h5-v0
     container_name: comfyui-spark
     hostname: comfyui-spark
+    entrypoint: ["/usr/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
+    command: []
 
     # GPU access (full unified-memory fabric on DGX Spark)
-    runtime: nvidia
+    # runtime: nvidia
     deploy:
       resources:
         reservations:
@@ -91,6 +94,7 @@ services:
         --listen 0.0.0.0
         --port 8188
         --use-sage-attention
+        --disable-comfy-compiler
         --fp8_e4m3fn-unet --bf16-vae --bf16-text-enc
         --disable-pinned-memory
         --reserve-vram 2.0

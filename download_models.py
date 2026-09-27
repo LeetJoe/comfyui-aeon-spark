@@ -273,6 +273,62 @@ PRIMARY_FILES: list[tuple] = [
         "vae",
         "ACE-Step v1.5 1D audio VAE (337MB)",
     ),
+
+    # ---------- MiniMax-H3 Sol-Engine weights (drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights) ----------
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "diffusion_models",
+        "MiniMax-H3 FL2VA pruned INT8 ConvRot DiT (INT8, sm_121a optimized)",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "diffusion_models",
+        "MiniMax-H3 REF2VA pruned INT8 ConvRot DiT (INT8, sm_121a optimized)",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "text_encoders",
+        "MiniMax-H3 Qwen3VL 32B NVFP4 AWQ text encoder (NVFP4, sm_121a accelerated)",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "text_encoders/H3/qwen3vl_32b_h3_ultra_uncensored_heretic_int8_convrot.safetensors",
+        "text_encoders/H3",
+        "MiniMax-H3 Qwen3VL 32B Ultra Uncensored Heretic INT8 ConvRot text encoder",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "text_encoders/H3/qwen3vl_32b_h3_generation_tail_50_63_int8_convrot.safetensors",
+        "text_encoders/H3",
+        "MiniMax-H3 Qwen3VL 32B Generation Tail 50/63 INT8 ConvRot text encoder",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "vae/minimax_h3_video_vae_fp16.safetensors",
+        "vae",
+        "MiniMax-H3 Video VAE (FP16)",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "vae/minimax_h3_audio_vae_fp32.safetensors",
+        "vae",
+        "MiniMax-H3 Audio VAE (FP32)",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "upscale_models/RealESRGAN_x2plus.pth",
+        "upscale_models",
+        "RealESRGAN x2+ upscaler (2x)",
+    ),
+    (
+        "drowzeys/keys-heretic-MiniMax-H3-sol-engine-more-DGX-Spark-weights",
+        "upscale_models/RealESRGAN_x4plus.pth",
+        "upscale_models",
+        "RealESRGAN x4+ upscaler (4x)",
+    ),
 ]
 
 # Optional snapshot downloads — full HF-format abliterated LLM weights for

@@ -11,6 +11,7 @@ PORT="${COMFYUI_PORT:-8188}"
 # DGX Spark unified-memory friendly defaults (override with COMFYUI_FLAGS env)
 DEFAULT_FLAGS="--listen 0.0.0.0 --port ${PORT} \
   --use-sage-attention \
+  --disable-comfy-compiler \
   --bf16-unet --bf16-vae --bf16-text-enc \
   --disable-pinned-memory \
   --reserve-vram 2.0 \
