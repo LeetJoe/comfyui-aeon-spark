@@ -3,6 +3,9 @@ name: Build and Publish Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'Dockerfile'
+      - '**.py'
   workflow_dispatch:
 
 env:
