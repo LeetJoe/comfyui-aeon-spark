@@ -3,9 +3,9 @@
 > **One image, zero extra downloads.** Pre-built for NVIDIA DGX Spark (GB10 / Blackwell / sm_121a).
 
 ```bash
-docker pull ghcr.io/aeon-7/comfyui-aeon-spark:latest
+docker pull ghcr.io/leetjoe/comfyui-leetjoe-spark:latest
 # prepare models weights and map your workspace in docker-compose.yml
-cd ~/comfyui-spark && docker compose up -d
+cd ~/comfyui-leetjoe-spark && docker compose up -d
 ```
 
 Open `http://<host>:8188` and start generating. That's it.
@@ -49,11 +49,12 @@ Open each link and click **"Agree and access"**:
 
 # map your workspace
     volumes:
-      - /your/workspace/to/comfy/.ollama:/root/.ollama
+      - ./workspace/.ollama:/root/.ollama
 
     volumes:
-      - /your/workspace/to/comfy/ComfyUI:/workspace/ComfyUI
-      - /your/codebase/comfyui-aeon-spark/entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
+      - ./workspace:/workspace/ComfyUI
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
+      - ./download_models.py:/usr/local/bin/download_models.py:ro
 
 ```
 
