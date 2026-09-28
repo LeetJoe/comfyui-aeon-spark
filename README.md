@@ -1,11 +1,15 @@
 # ComfyUI · AEON DGX Spark — Flux 2 + LTX 2.3 + ACE-Step + MiniMax-H3
 
-> **One image, zero extra downloads.** Pre-built for NVIDIA DGX Spark (GB10 / Blackwell / sm_121a).
+> **One image, zero extra configurations.** Pre-built for NVIDIA DGX Spark (GB10 / Blackwell / sm_121a).
 
 ```bash
-docker pull ghcr.io/leetjoe/comfyui-leetjoe-spark:latest
+# github build workflow failed due to runner limit, please build locally
+# docker pull ghcr.io/leetjoe/comfyui-leetjoe-spark:latest
+git clone git@github.com:LeetJoe/comfyui-leetjoe-spark.git
+cd ~/comfyui-leetjoe-spark
+docker build -t comfyui-spark:h3-v1.0.0
 # prepare models weights and map your workspace in docker-compose.yml
-cd ~/comfyui-leetjoe-spark && docker compose up -d
+docker compose up -d
 ```
 
 Open `http://<host>:8188` and start generating. That's it.
